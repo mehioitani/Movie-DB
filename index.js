@@ -83,6 +83,36 @@ app.get('/movies/create', (req, res) => {
       status: 200,
       data: movies
     };
+    res.send(response);
+  });
+
+    app.get('/movies/read/by-date', (req, res) => { 
+        const sortMovies = movies.sort((a,b) => a.year-b.year)
+        const response = {
+          status: 200,
+          data: sortMovies
+        };
+    res.send(response);
+  });
+
+  app.get('/movies/read/by-rating', (req, res) => {
+    const sortMovies = movies.sort((a, b) => b.rating - a.rating);
+  
+    const response = {
+      status: 200,
+      data: sortMovies
+    };
+  
+    res.send(response);
+  });
+
+  app.get('/movies/read/by-title', (req, res) => {
+    const sortMovies = movies.sort((a, b) => a.title.localeCompare(b.title));
+  
+    const response = {
+      status: 200,
+      data: sortMovies
+    };
   
     res.send(response);
   });
