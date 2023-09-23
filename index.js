@@ -29,4 +29,33 @@ app.get('/test', (req, res) => {
     res.send(response);
   });
 
+  app.get('/hello/:id?', (req, res) => {
+    const { id } = req.params;
+    const message = id ? `Hello ${id}` : 'Hello User';
+    const response = {
+        status:200,
+        message:message
+    }
+    res.send(response);
+  });
+
+
+app.get('/search', (req, res) => {
+  const { s } = req.query;
+  const response2 = {
+    status: 500,
+    error: true,
+    message: 'You have to provide a search'
+  };
+  const data = s ? s : response2;
+
+  const response = {
+    status: s ? 200 : 500,
+    message: s ? 'ok' : 'error',
+    data: data
+  };
+
+  res.status(response.status).json(response);
+});
+
 app.listen(port);
