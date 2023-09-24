@@ -2,8 +2,8 @@
 
 const express = require('express')
 const app = express()
-const port = 8000;
-// const mongoose = require('mongoose');
+const port = 8080;
+const mongoose = require('mongoose');
 
 //step2
 app.get('/', (req, res) => {
@@ -166,16 +166,34 @@ app.get('/movies/create', (req, res) => {
     }
   });
 
+//Step 9  
+  
+  app.get('/movies/add', (req, res) => {
+    const { title, year, rating } = req.query;
+  // if title and year are not provided it will throw an error with a message
+    if (!title || !year) {
+      return res.status(403).json({ status: 403, error: true, message: 'You cannot create a movie without providing a title and a year' });
+    }
+  // if year provided is not a number and it length are different from 4 digits it will throw an error with a message
+    if (isNaN(year) || year.length !== 4) {
+      return res.status(403).json({ status: 403, error: true, message: 'The year should be a 4-digit number' });
+    }
+// push to add the new movie to movies array list
+    movies.push(title,year,rating || 4);
+ // send the requested response 
+    res.send({ movies });
+  });
   
   // connect to DB
-  // mongoose.connect(process.env.MONGO_URI)
-  //   .then(()=>{
-  //       app.listen(process.env.PORT,()=>{
-  //           console.log('listening on port',process.env.PORT)
-  //       });
-  //   })
-  //   .catch((error)=>{
-  //       console.log(error)
-  //   })
+  mongoose.connect('mongodb+srv://muhieddineitani04:Mehio70934493@mehio.owilamh.mongodb.net/Mehio?retryWrites=true&w=majority')
+    .then(()=>{
+      app.listen(port,()=>{
+        console.log('Connected To MongoDB')
+        console.log('App is listening on port 8080')
+      })
 
-app.listen(port)
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
+
