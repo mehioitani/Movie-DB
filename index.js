@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 
 // step 3
 //when adding test next to local host port it will return "ok" message
-app.get('/test', (req, res) => {
+app.get('/api/test', (req, res) => {
     const response = {
       status: 200,
       message: 'ok'
@@ -22,7 +22,7 @@ app.get('/test', (req, res) => {
   });
 
   //when adding time next to local host port it will return the current time
-  app.get('/time', (req, res) => {
+  app.get('/api/time', (req, res) => {
     const timeNow = new Date();
     const hours = timeNow.getHours();
     const minutes = timeNow.getMinutes();
@@ -38,7 +38,7 @@ app.get('/test', (req, res) => {
 
   // Step 4
   //if ID value is entered it will return text Hello + ID else Hello user
-  app.get('/hello/:id?', (req, res) => {
+  app.get('/api/hello/:id?', (req, res) => {
     const { id } = req.params;
     const message = id ? `Hello ${id}` : 'Hello User';
     const response = {
@@ -49,7 +49,7 @@ app.get('/test', (req, res) => {
   });
 
 // If a search value is entered  it will display its value in data section, if not it will throw an error and message "you have to provide a search"
-app.get('/search', (req, res) => {
+app.get('/api/search', (req, res) => {
   const { s } = req.query;
   const response2 = {
     status: 500,
@@ -168,7 +168,7 @@ app.get('/movies/create', (req, res) => {
 
 //Step 8 
   
-  app.get('/movies/add', (req, res) => {
+  app.get('/api/movies/add', (req, res) => {
     const { title, year, rating } = req.query;
   // if title and year are not provided it will throw an error with a message
     if (!title || !year) {
@@ -186,7 +186,7 @@ app.get('/movies/create', (req, res) => {
   
 
   //step 9
-  app.get('/movies/delete/:id?', function(req, res) {
+  app.get('/api/movies/delete/:id?', function(req, res) {
     //request the movie ID you want to delete as an integer
     const movieId = parseInt(req.params.id);
     //using the findIndex method to find the movie index of the movie relying on its ID
@@ -202,7 +202,8 @@ app.get('/movies/create', (req, res) => {
     }
  });
 
- app.get("/movies/update/:id",(req,res) =>{
+ // Step 10
+ app.get("/api/movies/update/:id",(req,res) =>{
 
   const movieId = parseInt(req.params.id);
   const movieTitle = req.query.title;
