@@ -201,6 +201,31 @@ app.get('/movies/create', (req, res) => {
       res.status(200).send({status: 200, error: false,movies: movies });
     }
  });
+
+ app.get("/movies/update/:id",(req,res) =>{
+
+  const movieId = parseInt(req.params.id);
+  const movieTitle = req.query.title;
+  const movieYear = req.query.year;
+  const movieRating = req.query.rating;
+
+  const Index = movies.find(movie => movie.id === movieId);
+
+  if (!Index){
+     res.status(404).send({status: 404, error: true, message: `The movie ${movieId} does not exist`});
+
+  }if(movieTitle){
+     Index.title = movieTitle
+
+  }if(movieYear){
+     Index.year = movieYear
+
+  }if(movieRating){
+     Index.rating = movieRating
+  }
+     res.status(200).send({status: 200, error: false, movies: movies});
+});
+  
   // connect to DB
   mongoose.connect('mongodb+srv://muhieddineitani04:Mehio70934493@mehio.owilamh.mongodb.net/Mehio?retryWrites=true&w=majority')
     .then(()=>{
