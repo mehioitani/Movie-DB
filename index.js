@@ -166,7 +166,7 @@ app.get('/movies/create', (req, res) => {
     }
   });
 
-//Step 9  
+//Step 8 
   
   app.get('/movies/add', (req, res) => {
     const { title, year, rating } = req.query;
@@ -184,6 +184,23 @@ app.get('/movies/create', (req, res) => {
     res.send({ movies });
   });
   
+
+  //step 9
+  app.get('/movies/delete/:id?', function(req, res) {
+    //request the movie ID you want to delete as an integer
+    const movieId = parseInt(req.params.id);
+    //using the findIndex method to find the movie index of the movie relying on its ID
+    const Index = movies.findIndex(movie => movie.id === movieId);
+    // If the movie ID does not exist then error will pop with the Id entered (does not exist)
+    if (Index === -1) {
+      res.status(404).send({status: 404, error: true, message: `The movie ${movieId} does not exist`});
+    } else {
+    //  if the movie ID is found it will be delete it using the splice method in addition of a message and the list of the remaining movies.
+      movies.splice(Index, 1);
+
+      res.status(200).send({status: 200, error: false,movies: movies });
+    }
+ });
   // connect to DB
   mongoose.connect('mongodb+srv://muhieddineitani04:Mehio70934493@mehio.owilamh.mongodb.net/Mehio?retryWrites=true&w=majority')
     .then(()=>{
